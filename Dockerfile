@@ -1,9 +1,11 @@
-FROM php:8.1-apache
+FROM php:8.1-fpm-alpine
 
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk add \
     git \
     unzip \
     libpq-dev \
+    curl \
+    bash \
     && docker-php-ext-install pdo pdo_pgsql
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -14,9 +16,8 @@ WORKDIR /var/www/html
 
 RUN composer install
 
-EXPOSE 8000
-
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
     && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
-CMD ["symfony", "server:start", "--no-tls", "--port=8000"]
+EXPOSE 3000
+CMD php-fpm
