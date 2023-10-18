@@ -22,7 +22,7 @@ WORKDIR /var/www/html
 RUN composer install
 
 # Exposez le port 80.
-EXPOSE 80
+EXPOSE 8000
 
 # Utilisez le serveur web intégré de Symfony pour lancer votre application.
-CMD ["symfony", "server:start", "--no-tls", "--port=80"]
+CMD ["symfony", "server:start", "--no-tls", "--port=8000"]
