@@ -21,7 +21,7 @@ En respectant donc la stack définie ci avant, vous devez
 
 ### Install ###
 ```angular2html
-$
+$ compose install
 ```
 
 ### For use 
