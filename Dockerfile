@@ -1,23 +1,64 @@
-FROM php:8.1-fpm-alpine
+ARG PHP_VERSION=8.2
 
-RUN apk update && apk add \
-    git \
-    unzip \
-    libpq-dev \
-    curl \
-    bash \
-    && docker-php-ext-install pdo pdo_pgsql
+FROM php:${PHP_VERSION}-fpm-alpine
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# persistent / runtime deps
+RUN apk add --no-cache --update linux-headers \
+		acl \
+		bash \
+		fcgi \
+		file \
+		openssh-client \
+		gettext \
+		git \
+		yarn \
+		supervisor \
+        libmcrypt libmcrypt-dev \
+        libxml2-dev libxslt-dev freetype-dev libpng-dev libjpeg-turbo-dev \
+        zip unzip \
+        icu-data-full \
+	;
 
-COPY ./back /var/www/html
+RUN set -eux; \
+	apk add --no-cache --virtual .build-deps \
+		$PHPIZE_DEPS \
+		icu-dev \
+		libzip-dev \
+		postgresql-client \
+		postgresql-dev \
+		zlib-dev \
+	; \
+	\
+	docker-php-ext-configure zip; \
+	docker-php-ext-install -j$(nproc) \
+		intl \
+		pgsql \
+		pdo_pgsql \
+		zip \
+		xsl \
+	; \
+	pecl install \
+		pcov \
+	; \
+	pecl clear-cache; \
+	docker-php-ext-enable \
+		opcache \
+	; \
+	\
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
+	\
+	apk del .build-deps
 
-WORKDIR /var/www/html
+# COMPOSER INSTALLATION
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install
+#EXPOSE ${XDEBUG_REMOTE_PORT}
 
-RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
-
-EXPOSE 3000
-CMD php-fpm
+# EXORT COMPOSER GLOBAL PATH
+ENV PATH="$PATH:$HOME/.composer/vendor/bin"
