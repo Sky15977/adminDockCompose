@@ -19,6 +19,9 @@ RUN apk add --no-cache --update linux-headers \
         icu-data-full \
 	;
 
+RUN apk update && apk add --no-cache postgresql-dev \
+    && docker-php-ext-install pdo pdo_pgsql
+
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \

@@ -21,10 +21,12 @@ En respectant donc la stack définie ci avant, vous devez
 
 ### Install ###
 ```angular2html
-$ compose install
+$ cd back
+$ composer install
+$ cd ..
 ```
 
 ### For use 
 ```angular2html
-$
+$ docker compose up
 ```
