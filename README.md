@@ -1,5 +1,4 @@
-
-### Order ###
+### Exercise ###
 
 Créer une interface d'administration easyadmin dans une infra docker et docker compose.
 Pouvoir débug cette application via xdebug.
@@ -22,25 +21,11 @@ En respectant donc la stack définie ci avant, vous devez
 - ajouter des filtres à ces crud
 - créer un filtre custom permettant d'afficher tous les contenants ayant au moins 1 contrat
 
-### Install ###
+### For use ###
 ```angular2html
-$ cd back
-$ composer install
-$ cd ..
+$ docker compose up --build
 ```
-
-### Update postgis tables ###
-executer dans le container php
+### For delete all docker ###
 ```angular2html
-$ php bin/console doctrine:schema:update --force
-```
-
-### Re build
-```angular2html
-$ docker compose build
-```
-
-### For use 
-```angular2html
-$ docker compose up
+$ docker rm -f $(docker ps -a -q)
 ```
