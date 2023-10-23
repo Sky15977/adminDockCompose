@@ -15,6 +15,7 @@ class Group
     private ?int $id = null;
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
+
     //#[ORM\Column(type: '\App\Entity\Container')]
     //private ?Container $container = null;
 

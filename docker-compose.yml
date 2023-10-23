@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgis:
+  postgres:
     image: postgis/postgis:15-3.4-alpine
     container_name: postgres
     environment:
@@ -9,7 +9,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_EXT_PORT}:5432"
     volumes:
       - ${DOCKER_FILES_PATH}/postgres/data:/var/lib/postgresql/data
 
@@ -39,4 +39,5 @@ services:
       - -c
       - |
         composer install
+        bin/console doctrine:schema:update --force
         php-fpm
