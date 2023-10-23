@@ -1,3 +1,6 @@
+
+### Order ###
+
 Créer une interface d'administration easyadmin dans une infra docker et docker compose.
 Pouvoir débug cette application via xdebug.
 Vous avez le droit de vous faire aider par chat gpt, notamment pour comprendre ce que vous faites. Et débug les erreurs de type infra que vous aurez.
@@ -24,6 +27,17 @@ En respectant donc la stack définie ci avant, vous devez
 $ cd back
 $ composer install
 $ cd ..
+```
+
+### Update postgis tables ###
+executer dans le container php
+```angular2html
+$ php bin/console doctrine:schema:update --force
+```
+
+### Re build
+```angular2html
+$ docker compose build
 ```
 
 ### For use 
