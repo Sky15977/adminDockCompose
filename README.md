@@ -1,4 +1,4 @@
-### Exercise ###
+# Objectif #
 
 Créer une interface d'administration easyadmin dans une infra docker et docker compose.
 Pouvoir débug cette application via xdebug.
@@ -21,11 +21,23 @@ En respectant donc la stack définie ci avant, vous devez
 - ajouter des filtres à ces crud
 - créer un filtre custom permettant d'afficher tous les contenants ayant au moins 1 contrat
 
-### For use ###
+# Liste des containers Docker #
+- postgres;
+- php;
+- nginx;
+
+# Installation #
+### Prérequis ###
+- Port 80 should be open ( apache2, nginx etc could use it )
+- mkdir -p ~/projects && cd ~/projects
+- git clone git@github.com:Sky15977/adminDockCompose.git
+
+### Step 1 - Create Docker Network and Run ###
 ```angular2html
-$ docker compose up --build
+$ docker compose up --build -d
 ```
-### For delete all docker ###
+
+### Step final - Delete all Docker Network ###
 ```angular2html
 $ docker rm -f $(docker ps -a -q)
 ```
