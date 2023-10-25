@@ -12,12 +12,24 @@ class Contract
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
-    //#[ORM\Column(type: '\App\Entity\Sensor')]
-    //private ?Sensor $sensor = null;
 
-    public function getId(): ?int
+    #[ORM\ManyToOne(targetEntity: Container::class, inversedBy: "contract")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Container $container;
+
+    #[ORM\OneToOne(targetEntity: Sensor::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Sensor $sensor;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -34,13 +46,27 @@ class Contract
         return $this;
     }
 
-    /*public function getSensor(): ?Sensor
+    public function getContainer(): ?Container
+    {
+        return $this->container;
+    }
+
+    public function setContainer(Container $container): self
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    public function getSensor(): ?Sensor
     {
         return $this->sensor;
     }
 
-    public function __toString(): string
+    public function setSensor(Sensor $sensor): self
     {
-        return $this->name.' '.$this->sensor->getName();
-    }*/
+        $this->sensor = $sensor;
+
+        return $this;
+    }
 }

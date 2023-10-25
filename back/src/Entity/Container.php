@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ContainerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: ContainerRepository::class)]
 class Container
@@ -12,35 +14,86 @@ class Container
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column(type: 'string', length: 255)]
-    private ?string $name = null;
-    //#[ORM\Column(type: '\App\Entity\Contract')]
-    //private ?Contract $contract = null;
 
-    public function getId(): ?int
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: "containers")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Group $group;
+
+    #[ORM\ManyToMany(targetEntity: Contract::class, mappedBy: "containers")]
+    private ?Collection $contracts;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->contracts = new ArrayCollection();
     }
 
-    public function getName(): ?string
+    public function __toString()
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName($name): Container
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /*public function getContracts(): ?Contract
+    public function getGroup(): Group
     {
-        return $this->contract;
+        return $this->group;
     }
 
-    public function __toString(): string
+    public function setGroup(Group $group): self
     {
-        return $this->name.' '.$this->contract->getName();
-    }*/
+        $this->group = $group;
+
+        return $this;
+    }
+
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function setContracts(Collection $contracts): self
+    {
+        $this->contracts = $contracts;
+
+        return $this;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setContainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            if ($contract->getContainer() === $this) {
+                $contract->setContainer(null);
+            }
+        }
+
+        return $this;
+    }
 }
