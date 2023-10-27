@@ -28,11 +28,22 @@ En respectant donc la stack définie ci avant, vous devez
 
 # Installation #
 ### Prérequis ###
-- Port 80 should be open ( apache2, nginx etc could use it )
-- mkdir -p ~/projects && cd ~/projects
-- git clone git@github.com:Sky15977/adminDockCompose.git
+```angular2html
+$ Port 80 should be open ( apache2, nginx etc could use it )
+$ mkdir -p ~/projects && cd ~/projects
+$ git clone git@github.com:Sky15977/adminDockCompose.git
+$ cd back/
+$ composer require symfony/runtime
+$ cd ..
+```
 
-### Step 1 - Create Docker Network and Run ###
+### Step 1 - Env Vars ###
+```angular2html
+$ cp .env.dist ./.env
+```
+- modify all '/PATH/TO/DIR' by absolute or relative path
+
+### Step 2 - Create Docker Network and Run ###
 ```angular2html
 $ docker compose up --build -d
 ```
