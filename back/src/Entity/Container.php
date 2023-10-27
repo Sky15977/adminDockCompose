@@ -22,7 +22,7 @@ class Container
     #[ORM\JoinColumn(nullable: false)]
     private ?Group $group;
 
-    #[ORM\ManyToMany(targetEntity: Contract::class, mappedBy: "containers")]
+    #[ORM\oneToMany(mappedBy: "containers", targetEntity: Contract::class)]
     private ?Collection $contracts;
 
     public function __construct()
@@ -95,5 +95,10 @@ class Container
         }
 
         return $this;
+    }
+
+    public function getNbContracts(): int
+    {
+        return count($this->contracts);
     }
 }

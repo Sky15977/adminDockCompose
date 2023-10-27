@@ -11,14 +11,14 @@ class Sensor
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(unique: true)]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
+    #[ORM\OneToOne(mappedBy: 'sensor', targetEntity: Contract::class)]
     #[ORM\Column(nullable: true)]
-    #[ORM\OneToOne(targetEntity: Contract::class)]
     private Contract $contract;
 
     public function __toString()

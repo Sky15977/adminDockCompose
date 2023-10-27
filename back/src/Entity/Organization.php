@@ -80,4 +80,9 @@ class Organization
 
         return $this;
     }
+
+    public function getNbGroups(): int
+    {
+        return count($this->groups);
+    }
 }

@@ -41,3 +41,5 @@ services:
         composer install
         bin/console doctrine:schema:update --force
         php-fpm
+    # bin/console make:migration
+    # bin/console doctrine:migrations:migrate

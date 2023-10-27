@@ -97,4 +97,9 @@ class Group
 
         return $this;
     }
+
+    public function getNbContainers(): int
+    {
+        return count($this->containers);
+    }
 }
