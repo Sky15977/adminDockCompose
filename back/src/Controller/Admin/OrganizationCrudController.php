@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Organization;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -22,5 +23,12 @@ class OrganizationCrudController extends AbstractCrudController
             TextField::new('name'),
             IntegerField::new('nbGroups', 'Nb Groups')->setDisabled(true),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ;
     }
 }

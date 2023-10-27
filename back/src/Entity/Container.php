@@ -15,14 +15,14 @@ class Container
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: "containers")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Group $group;
 
-    #[ORM\oneToMany(mappedBy: "containers", targetEntity: Contract::class)]
+    #[ORM\OneToMany(mappedBy: "container", targetEntity: Contract::class)]
     private ?Collection $contracts;
 
     public function __construct()

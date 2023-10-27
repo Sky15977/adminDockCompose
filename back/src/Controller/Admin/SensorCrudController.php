@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Sensor;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -20,7 +21,15 @@ class SensorCrudController extends AbstractCrudController
         return [
             IdField::new('id')->setDisabled(true),
             TextField::new('name'),
-            TextField::new('contract.name', 'Contract')->setDisabled(true),
+            AssociationField::new('activeContract', 'Contract')->setSortable(true),
+            //TextField::new('activeContract', 'Contract')->setDisabled(true),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ;
     }
 }

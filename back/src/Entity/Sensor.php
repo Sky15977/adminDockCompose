@@ -18,8 +18,7 @@ class Sensor
     private ?string $name = null;
 
     #[ORM\OneToOne(mappedBy: 'sensor', targetEntity: Contract::class)]
-    #[ORM\Column(nullable: true)]
-    private Contract $contract;
+    private ?Contract $activeContract;
 
     public function __toString()
     {
@@ -43,14 +42,14 @@ class Sensor
         return $this;
     }
 
-    public function getContract(): Contract
+    public function getActiveContract(): ?Contract
     {
-        return $this->contract;
+        return $this->activeContract;
     }
 
-    public function setContract(Contract $contract): self
+    public function setActiveContract(Contract $activeContract): self
     {
-        $this->contract = $contract;
+        $this->activeContract = $activeContract;
 
         return $this;
     }

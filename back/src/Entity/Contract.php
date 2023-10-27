@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContractRepository::class)]
@@ -16,13 +17,17 @@ class Contract
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: Container::class, inversedBy: "contract")]
+    #[ORM\ManyToOne(targetEntity: Container::class, inversedBy: "contracts")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Container $container;
 
-    #[ORM\OneToOne(targetEntity: Sensor::class)]
+    #[ORM\OneToOne(inversedBy: "activeContract", targetEntity: Sensor::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Sensor $sensor;
+
+    public function __construct()
+    {
+    }
 
     public function __toString()
     {

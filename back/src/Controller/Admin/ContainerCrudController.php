@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Admin\Filter\ContainerCustomFilter;
 use App\Entity\Container;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -24,5 +26,14 @@ class ContainerCrudController extends AbstractCrudController
             AssociationField::new('group', 'Group')->setSortable(true),
             IntegerField::new('nbContracts', 'Nb Contracts')->setDisabled(true),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('name')
+            ->add('group')
+            ->add(ContainerCustomFilter::new('nbContracts'))
+            ;
     }
 }
