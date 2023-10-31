@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OrganizationRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,12 +19,24 @@ class Organization
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: false, options: ["default" => "Hello world !"])]
+    private ?string $comment = null;
+
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Group::class)]
     private ?Collection $groups;
+
+    #[ORM\Column(name: "created_at", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
+    protected DateTime $createdAt;
+
+
+    #[ORM\Column(name: "updated_at", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
+    protected DateTime $updatedAt;
 
     public function __construct()
     {
         $this->groups = new ArrayCollection();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function __toString()
@@ -84,5 +97,35 @@ class Organization
     public function getNbGroups(): int
     {
         return count($this->groups);
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
     }
 }

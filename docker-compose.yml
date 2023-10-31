@@ -39,7 +39,5 @@ services:
       - -c
       - |
         composer install
-        bin/console doctrine:schema:update --force
+        php bin/console --no-interaction doctrine:migrations:migrate
         php-fpm
-    # bin/console make:migration
-    # bin/console doctrine:migrations:migrate

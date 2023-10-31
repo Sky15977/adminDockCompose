@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Organization;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -21,7 +22,11 @@ class OrganizationCrudController extends AbstractCrudController
         return [
             IdField::new('id')->setDisabled(true),
             TextField::new('name'),
-            IntegerField::new('nbGroups', 'Nb Groups')->setDisabled(true),
+            IntegerField::new('nbGroups', 'Nb Groups')
+                ->setDisabled(true)
+                ->hideOnForm(),
+            DateTimeField::new('createdAt'),
+            DateTimeField::new('updatedAt'),
         ];
     }
 
