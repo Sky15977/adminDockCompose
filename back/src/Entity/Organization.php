@@ -7,8 +7,10 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: OrganizationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Organization
 {
     #[ORM\Id]
@@ -114,5 +116,12 @@ class Organization
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTimestamps()
+    {
+        $this->updatedAt = new DateTime();
     }
 }
