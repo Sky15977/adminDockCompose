@@ -31,10 +31,7 @@ En respectant donc la stack définie ci avant, vous devez
 ```angular2html
 $ Port 80 should be open ( apache2, nginx etc could use it )
 $ mkdir -p ~/projects && cd ~/projects
-$ git clone git@github.com:Sky15977/adminDockCompose.git
-$ cd back/
-$ composer require symfony/runtime
-$ cd ..
+$ git clone git@github.com:Sky15977/adminDockCompose.gi
 ```
 
 ### Step 1 - Env Vars ###
@@ -51,4 +48,13 @@ $ docker compose up --build -d
 ### Step final - Delete all Docker Network ###
 ```angular2html
 $ docker rm -f $(docker ps -a -q)
+```
+
+### Access migration ###
+```angular2html
+$ docker exec -ti php bash
+$ php bin/console doctrine:migrations:diff
+$ php bin/console doctrine:migrations:migrate
+
+$ php bin/console doctrine:migrations:migrate --force
 ```
