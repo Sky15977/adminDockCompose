@@ -19,9 +19,6 @@ class Organization
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: false, options: ["default" => "Hello world !"])]
-    private ?string $comment = null;
-
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Group::class)]
     private ?Collection $groups;
 
@@ -117,15 +114,5 @@ class Organization
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function setComment(?string $comment): void
-    {
-        $this->comment = $comment;
     }
 }

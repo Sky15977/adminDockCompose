@@ -25,8 +25,8 @@ class OrganizationCrudController extends AbstractCrudController
             IntegerField::new('nbGroups', 'Nb Groups')
                 ->setDisabled(true)
                 ->hideOnForm(),
-            DateTimeField::new('createdAt'),
-            DateTimeField::new('updatedAt'),
+            DateTimeField::new('createdAt')->hideOnForm(),
+            DateTimeField::new('updatedAt')->hideOnForm(),
         ];
     }
 
