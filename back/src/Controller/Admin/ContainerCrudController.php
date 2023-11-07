@@ -33,7 +33,7 @@ class ContainerCrudController extends AbstractCrudController
         return $filters
             ->add('name')
             ->add('group')
-            ->add(ContainerCustomFilter::new('nbContracts'))
+            ->add(ContainerCustomFilter::new('nbContracts', 'NB Contracts'))
             ;
     }
 }

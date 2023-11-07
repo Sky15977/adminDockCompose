@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Admin\Filter;
 
 use Doctrine\ORM\QueryBuilder;
@@ -23,9 +22,12 @@ class ContainerCustomFilter implements FilterInterface
 
     public function apply(QueryBuilder $queryBuilder, FilterDataDto $filterDataDto, ?FieldDto $fieldDto, EntityDto $entityDto): void
     {
-        if (0 > $filterDataDto->getValue()) {
-            $queryBuilder->andWhere(sprintf('%s.%s = :at least 1 contract', $filterDataDto->getEntityAlias(), $filterDataDto->getProperty()));
-                //->setParameter('today', (new \DateTime('today'))->format('Y-m-d'));
+        $value = $filterDataDto->getValue();
+
+        if (ctype_digit($value) !== false) { // vérifie que c'est un entier positif
+            $rootAlias = $queryBuilder->getRootAliases()[0];
+            $queryBuilder->andWhere(sprintf(':count = SIZE(%s.contracts)', $rootAlias))
+                ->setParameter('count', (int) $value);
         }
     }
 }
