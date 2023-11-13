@@ -53,8 +53,8 @@ $ docker rm -f $(docker ps -a -q)
 ### Access migration ###
 ```angular2html
 $ docker exec -ti php bash
-$ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
+$ php bin/console doctrine:migrations:diff
 
 $ php bin/console doctrine:migrations:migrate --force
 ```
