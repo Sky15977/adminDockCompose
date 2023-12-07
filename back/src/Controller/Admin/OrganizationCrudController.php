@@ -33,7 +33,6 @@ class OrganizationCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add('name')
-            ;
+            ->add('name');
     }
 }
